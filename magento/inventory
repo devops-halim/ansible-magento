@@ -1,0 +1,5 @@
+[ubuntu]
+49.13.66.115
+[ubuntu:vars] 
+ansible_user=ansible
+ansible_private_key_file=~/.ssh/ansible/ansible

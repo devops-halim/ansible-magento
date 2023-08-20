@@ -1,0 +1,49 @@
+---
+# tasks file for mariadb
+- name: Create group
+  group:
+    name: "{{ new_groupname }}"
+    state: present
+- name: Create user without password
+  user:
+   name: "{{ new_username }}"
+   group: "{{ new_groupname }}"
+   create_home: yes
+   shell: /bin/bash
+   password: "*"
+   state: present
+# - name: install maria bd 
+  # apt: 
+  #   name: mariadb-server
+  #   state: present
+
+- name: install mariadb-server
+  get_url:
+    url: "https://archive.mariadb.org/mariadb-{{mariadb_version}}/bintar-linux-systemd-x86_64/mariadb-{{mariadb_version}}-linux-systemd-x86_64.tar.gz"
+    dest: "{{download_dir}}"
+    checksum: "{{mariadb_checksum}}"
+- name: Expand mariadb server
+  unarchive:
+    src: "{{download_dir}}/mariadb-{{mariadb_version}}-linux-systemd-x86_64.tar.gz"
+    dest: "{{download_dir}}"
+    remote_src: true
+    creates: "{{download_dir}}/mariadb-{{mariadb_version}}-linux-systemd-x86_64/README"
+- name: mover mariadb to his place
+  command: "mv {{download_dir}}/mariadb-{{mariadb_version}}-linux-systemd-x86_64 {{mariadb_dir}}"
+      
+- name: link mariadb to  mysql
+  command: "ln -s {{mariadb_dir}}/mariadb-{{mariadb_version}}-linux-systemd-x86_64 {{mariadb_dir}}/mysql"
+- name: run mysql script
+  command: > 
+      {{mariadb_dir}}/mysql/scripts/mariadb-install-db  --user=mysql
+- name: Auto Start of mysqld
+  command: >
+    "cp {{mariadb_dir}}/mysql/support-files/mysql.server /etc/init.d/mysql.server"
+     # "cp {{mariadb_dir}}/mysql/support-files/systemd/mariadb.service /usr/lib/systemd/system/mariadb.service"
+- command: mkdir /etc/systemd/system/mariadb.service.d/
+- command: cat > /etc/systemd/system/mariadb.service.d/datadir.conf <<EOF [Service] ReadWritePaths=/usr/local/mysql/data EOF
+- name: daemon-reload and enable mariadb
+  command: >
+      systemctl daemon-reload
+      systemctl enable mariadb.service
+      systemctl start mariadb.service 

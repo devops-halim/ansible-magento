@@ -1,0 +1,19 @@
+---
+# all our comoent wel be install in tmp directory
+download_dir: /tmp
+
+# Composer 
+# https://getcomposer.org/download/
+composer_dir: /usr/local/bin/
+composer_version: 2.5.8
+composer_checksum: sha256:f07934fad44f9048c0dc875a506cca31cc2794d6aebfc1867f3b1fbf48dce2c5
+
+# PHP 
+php_version: 8.2
+
+# mariadb 
+# #https://dev.mariadb.com/get/mariadb-apt-config_0.8.26-1_all.deb
+mariadb_version: 11.0.2
+mariadb_dir: /usr/local/
+mariadb_checksum: sha256:351589b6b833db4387eadb5bd4cc0b97c1bc2dcf06ad5dfc27194eaa80efde07
+

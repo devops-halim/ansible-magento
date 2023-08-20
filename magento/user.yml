@@ -1,0 +1,28 @@
+---
+- name: Create User and Grant Sudo Privileges
+  hosts: all
+  become: true
+  become_method: sudo
+  #gather_facts: false
+  vars:
+    ssh_public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNZYOf3vXRI3JRtKw+pJyHasobyPcfnOkVQi8cahYt3GhZBP1EM1yu9TCLqHCMLmvmRmmS4d34NMpYGX9NLO0l7W9boFYRIIEhIzL9T/pBeHcstJ3AYzGM2FtBe1ZdluxJ37nF7uFu9j0P4jPjoSNnuZMRh2/1paHPW8NZJs0Fr8W5xfi0eDbMVS6pCjYhAqy4cjY2icEW2BBp3XAsOpylnZRhT/eguE1jpqdUFKxYCUjhyPcqFr+61LmNTp+IDN5NJf+1Nonmvs5jNunADX7vC0Hpx0BjbK9QyFxARuUkH24IlfjFWRurjm64gTBVH5qmi0DSwBoFfKGt1JiSErjpmAu+9fC48FTHLzdsbjbC20i3831+mB9Fnm/cOXXiWmwXKqHyL2CV2/l603r3aL19n6to0EtsZnwxR3VyJxb1HBpYXpErPdwcrYRoxFrQnjI+Vxs1vQ6vlfBQ/gqajyhR8kqy+ZpU6jq2GoG76M8dqUlBAk/aEEv9UyykSynUouJP19j/Ut7spjcJSvTMvg+hxXdYHbV9+OJO7CbiNIL8CJ2v4bFOsL60fUe01hKOfDxluxYbP8x/zBa2bO0RpKYoLOLhrMFBxKKH0fMML8NzE/PZFPHcqvPvcBnyDhI/4eaZFxFZHwiLwtG8S9CckPdy+qEzaXx7XYgsrfx8GJsQIQ== Hetzner-Cloud"
+  tasks:
+    - name: Add ansible user without password
+      user:
+        name: ansible
+        create_home: yes
+        shell: /bin/bash
+        password: "*"
+        state: present
+
+    - name: Grant sudo privileges to the user
+      lineinfile:
+        dest: /etc/sudoers
+        line: "ansible ALL=(ALL:ALL) NOPASSWD: ALL"
+        state: present
+        validate: visudo -cf %s
+    - name: Add SSH public key to user's authorized_keys
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ ssh_public_key }}"

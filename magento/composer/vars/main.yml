@@ -1,0 +1,6 @@
+---
+# vars file for composer
+download_dir: /tmp
+composer_dir: /usr/local/bin/
+composer_version: 2.5.8
+composer_checksum: sha256:f07934fad44f9048c0dc875a506cca31cc2794d6aebfc1867f3b1fbf48dce2c5

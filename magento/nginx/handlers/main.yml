@@ -1,0 +1,7 @@
+---
+# handlers file for nginx
+- name: ensurche nginx restarted
+  service: 
+    name: nginx
+    state: restarted
+    enabled: true

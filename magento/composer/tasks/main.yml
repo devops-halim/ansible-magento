@@ -1,0 +1,10 @@
+---
+# tasks file for composer
+- name: install composer
+  get_url:
+   url: "https://getcomposer.org/download/{{composer_version}}/composer.phar"
+   dest: "{{download_dir}}"
+   checksum: "{{composer_checksum}}"
+- name: make composer execute
+  command: mv "{{download_dir}}"/composer.phar  "{{composer_dir}}"/composer
+- command: chmod +x "{{composer_dir}}"/composer

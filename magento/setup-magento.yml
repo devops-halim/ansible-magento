@@ -1,0 +1,15 @@
+--- 
+- hosts: all 
+  become: true
+  #become_user: ansible
+  pre_tasks:
+    - name: update apt cache if needed
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+  roles:
+   - ansible-user
+   - php
+   - composer
+   - nginx
+   - mariadb
