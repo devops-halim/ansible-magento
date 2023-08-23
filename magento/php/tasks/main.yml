@@ -47,8 +47,4 @@
     #     - "php{{php_version}}-xml" 
     #     - "php{{php_version}}-zip"
     # state: present
-- name: restat php fpm
-  service:
-      name: "php{{php_version}}-fpm.service"
-      state: restarted
-      enabled: true
+  notify: restat php fpm

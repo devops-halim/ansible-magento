@@ -12,4 +12,5 @@
    - php
    - composer
    - nginx
-   - mariadb
+   #- mariadb
+   - opensearch

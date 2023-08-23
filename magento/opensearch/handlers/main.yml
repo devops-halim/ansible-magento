@@ -1,0 +1,7 @@
+---
+# handlers file for opensearch
+- name: enable and start opensearch
+  service:
+    name: opensearch
+    state: restarted
+    enabled: true

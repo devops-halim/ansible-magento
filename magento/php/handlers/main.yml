@@ -1,2 +1,7 @@
 ---
 # handlers file for php
+- name: restat php fpm
+  service:
+      name: "php{{php_version}}-fpm.service"
+      state: restarted
+      enabled: true
