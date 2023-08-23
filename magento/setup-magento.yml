@@ -8,7 +8,7 @@
         update_cache: true
         cache_valid_time: 3600
   roles:
-   - ansible-user
+   #- ansible-user
    - php
    - composer
    - nginx
